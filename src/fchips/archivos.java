@@ -1,7 +1,10 @@
 package fchips;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -10,7 +13,7 @@ import java.util.Scanner;
  */
 public class archivos {
        
-    public archivos() {
+    public archivos() throws IOException {
         try {
             Scanner scanner = new Scanner(new File("input.txt"));
             while (scanner.hasNextLine()) {
@@ -24,7 +27,7 @@ public class archivos {
         }
     }
     
-    public void proceso(int cantidad_ships, int iteraciones, char[] ships) {
+    public void proceso(int cantidad_ships, int iteraciones, char[] ships) throws IOException {
         
         if (cantidad_ships < 3 || cantidad_ships > 200000) {
             System.out.println("Cantidad de embarcaciones fuera de rango");
@@ -41,7 +44,7 @@ public class archivos {
             System.out.println("iteracion " + i);
             System.out.println(ships);
         }
-        
+        this.guardar_respuesta(ships);
     }
     
     public char[] iteracion(char[] ships) {
@@ -77,5 +80,11 @@ public class archivos {
         }
         
         return (count_w > count_b) ? "W".charAt(0) : "B".charAt(0);
+    }
+    
+    public void guardar_respuesta(char[] resultado) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", false));
+        writer.append(String.valueOf(resultado));
+        writer.close();
     }
 }
